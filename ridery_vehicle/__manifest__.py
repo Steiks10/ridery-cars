@@ -9,8 +9,9 @@
         'Steiker Mieles <steiker.m2002@gmail.com>',
     ],
     "category": 'Generic Modules/Ridery',
-    "depends": ['base', 'contacts'],
+    "depends": ['base', 'contacts', 'fleet', 'stock'],
     'data': [
+        "views/fleet_vehicle_inherit_form.xml"
 
     ],
     'installable': True,
