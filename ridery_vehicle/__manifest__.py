@@ -11,8 +11,13 @@
     "category": 'Generic Modules/Ridery',
     "depends": ['base', 'contacts', 'fleet', 'stock'],
     'data': [
-        "views/fleet_vehicle_inherit_form.xml"
-
+        "data/sequence.xml",
+        "views/fleet_vehicle_inherit_form.xml",
+        "views/res_partner_inherit_form.xml",
+        "views/fleet_vehicle_stock_location_graph.xml",
+        "views/fleet_vehicle_inherit_search.xml",
+        "views/driver_action_view.xml",
+        "views/menu_item.xml",
     ],
     'installable': True,
 }

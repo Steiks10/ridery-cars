@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ridery_cars_fleet_vehicle_inherit_search" model="ir.ui.view">
+            <field name="name">ridery_cars_fleet_vehicle_inherit_search</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state_id']" position="after">
+                    <field name="stock_location_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='groupby_status']" position="after">
+                    <filter string="Stock location" name="stock_location_id_group_by" context="{'group_by': 'stock_location_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

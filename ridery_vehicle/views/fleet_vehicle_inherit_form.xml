@@ -6,8 +6,20 @@
             <field name="model">fleet.vehicle</field>
             <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='image_128']" position="after">
+                  <field name="vehicle_image" widget="image" class="oe_avatar"/>
+                </xpath>
                 <xpath expr="//field[@name='manager_id']" position="after">
-                    <field name="stock_location_id"/>
+                    <field name="stock_location_id" domain="[('company_id', '=', company_id), ('usage', 'in', ['internal', 'view'])]" options="{'no_create_edit': True}"/>
+                </xpath>
+                <xpath expr="//label[@for='tag_ids']" position="before">
+                    <label for="sequence"/>
+                    <h2>
+                        <field name="sequence" readonly="True"/>
+                    </h2>
+                </xpath>
+                <xpath expr="//field[@name='driver_id']" position="attributes">
+                    <attribute name="required">1</attribute>
                 </xpath>
             </field>
         </record>

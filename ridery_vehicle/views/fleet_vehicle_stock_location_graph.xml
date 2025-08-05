@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="vehicle_per_stock_view_graph" model="ir.ui.view">
+            <field name="name">vehicle_per_stock_view_graph</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="arch" type="xml">
+                <graph string="Stock Location" type="bar" sample="1" stacked="0">
+                    <field name="stock_location_id" type="col"/>
+                    <field name="id" type="measure" operator="count"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="fleet_vehicle_stock_graph_action" model="ir.actions.act_window">
+            <field name="name">Vehicles Per Stock</field>
+            <field name="res_model">fleet.vehicle</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="vehicle_per_stock_view_graph"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    <strong></strong>
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
