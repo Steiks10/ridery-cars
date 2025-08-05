@@ -17,6 +17,7 @@
         "views/fleet_vehicle_stock_location_graph.xml",
         "views/fleet_vehicle_inherit_search.xml",
         "views/driver_action_view.xml",
+        "views/fleet_config.xml",
         "views/menu_item.xml",
     ],
     'installable': True,
