@@ -13,6 +13,14 @@
                         class="oe_stat_button"
                         icon="fa-external-link"
                         string="Vehicles"/>
+                    <button
+                        name="send_partner_vehicles_to_an_api"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-external-link"
+                        string="Send Vehicles"
+                    />
+
                 </xpath>
 
             </field>

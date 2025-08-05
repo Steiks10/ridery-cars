@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='image_128']" position="after">
-                  <field name="vehicle_image" widget="image" class="oe_avatar"/>
+                  <field name="vehicle_image" widget="image" class="oe_avatar" style="margin-right:10px;"/>
                 </xpath>
                 <xpath expr="//field[@name='manager_id']" position="after">
                     <field name="stock_location_id" domain="[('company_id', '=', company_id), ('usage', 'in', ['internal', 'view'])]" options="{'no_create_edit': True}"/>
