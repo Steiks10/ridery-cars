@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem name="Drivers"
+                  parent="fleet.menu_root"
+                  id="menu_fleet_drivers"
+                  sequence="25"
+                  groups="fleet.fleet_group_manager"/>
+
+        <menuitem name="Driver"
+                  parent="menu_fleet_drivers"
+                  id="menu_fleet_drivers_submenu"
+                  sequence="1"
+                  groups="fleet.fleet_group_manager"
+                  action="ridery_vehicle_driver_view_action_server"
+        />
+
+        <menuitem id="stock_vehicle_ubication_report_menu"
+                  name="Vehicle stock location"
+                  parent="fleet.menu_fleet_reporting"
+                  sequence="1"
+                  action="fleet_vehicle_stock_graph_action"
+        />
+    </data>
+</odoo>
