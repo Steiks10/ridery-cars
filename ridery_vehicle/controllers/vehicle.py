@@ -14,49 +14,38 @@ class ElearningController(http.Controller):
     @http.route('/ridery/vehicle', auth='public', methods=['POST'], type='http', csrf=False)
     @middleware_ridery_decorator
     def create_vehicle(self, **kwargs):
-        http_method = request.httprequest.method
         helper = request.env['response.helper']
-        ridery_logger = request.env['ridery.log'].sudo()
         try:
-            data = request.httprequest.get_data()
-            request_values = json.loads(data.decode('utf-8'))
+            request_values = json.loads(request.httprequest.get_data().decode('utf-8'))
 
-            stock_location_id = False
-            state_id = request.env['fleet.vehicle.state'].sudo().search([('name', '=', request_values.get('state_id'))])
-            model_id = request.env['fleet.vehicle.model'].sudo().search([('name', '=', request_values.get('model_id'))])
-            driver_id = request.env['res.partner'].sudo().search([('vat', '=', request_values.get('driver_id'))])
-            model_year = request_values.get('model_year')
-            color = request_values.get('color')
-            license_plate = request_values.get('license_plate')
-            if request_values.get('stock_location_id'):
-                stock_location_id = request.env['res.partner'].sudo().search([('name', '=', request_values.get('stock_location_id'))])
-            vehicle_created = self.create_fleet_vehicle(
-                state_id,
-                model_id,
-                driver_id,
-                model_year,
-                color,
-                license_plate,
-                stock_location_id
-            )
-            vehicle_created_response_data = {'id': vehicle_created.id}
-            return helper.success_response(vehicle_created_response_data)
+            search_map = {
+                'state_id': ('fleet.vehicle.state', 'name'),
+                'model_id': ('fleet.vehicle.model', 'name'),
+                'driver_id': ('res.partner', 'vat'),
+                'stock_location_id': ('stock.location', 'name'),
+            }
+            resolved = {}
+            for key, (model, field) in search_map.items():
+                value = request_values.get(key)
+                if value:
+                    resolved[key] = request.env[model].sudo().search([(field, '=', value)], limit=1)
+                else:
+                    resolved[key] = False
+            vehicle_vals = {
+                'state_id': resolved['state_id'].id if resolved['state_id'] else False,
+                'model_id': resolved['model_id'].id if resolved['model_id'] else False,
+                'driver_id': resolved['driver_id'].id if resolved['driver_id'] else False,
+                'model_year': request_values.get('model_year'),
+                'color': request_values.get('color'),
+                'license_plate': request_values.get('license_plate'),
+                'stock_location_id': resolved['stock_location_id'].id if resolved['stock_location_id'] else False,
+                'company_id': resolved['stock_location_id'].company_id.id
+            }
+
+            # Create the vehicle
+            vehicle_created = request.env['fleet.vehicle'].sudo().create(vehicle_vals)
+            return helper.success_response({'id': vehicle_created.id})
+
         except Exception as e:
-            _logger.error("Invoice creation error: %s", str(e))
-            response_text = str(e)
-            return helper.error_response(response_text, 500)
-
-    def create_fleet_vehicle(self, state_id, model_id, driver_id, model_year, color, license_plate, stock_location_id=False):
-        return request.env['fleet.vehicle'].sudo().create({
-            'state_id': state_id.id,
-            'model_id': model_id.id,
-            'driver_id': driver_id.id,
-            'model_year': model_year,
-            'color': color,
-            'license_plate': license_plate,
-            'stock_location_id': stock_location_id.id,
-        })
-
-
-
-
+            _logger.error("Vehicle creation error: %s", str(e))
+            return helper.error_response(str(e), 500)

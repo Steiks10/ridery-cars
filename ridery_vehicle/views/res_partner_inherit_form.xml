@@ -11,7 +11,7 @@
                         name="partner_vehicles_smart_button"
                         type="object"
                         class="oe_stat_button"
-                        icon="fa-external-link"
+                        icon="fa-car"
                         string="Vehicles"/>
                     <button
                         name="send_partner_vehicles_to_an_api"

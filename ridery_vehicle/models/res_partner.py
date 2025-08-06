@@ -38,10 +38,26 @@ class ResPartner(models.Model):
                 'stock_id': vehicle.stock_location_id.name,
                 'company_id': vehicle.company_id.name,
             })
-        url = 'http://localhost:3000/vehicles'
+        url = 'http://localhost:3000/vehicles/by_driver'
         headers = {'Content-Type': 'application/json'}
         try:
             response = request_service.send_request_to_app(url, method='POST', data=vehicles_data, headers=headers)
+            response_text = ""
+            if response.status_code in (200, 201):
+                try:
+                    response_json = response.json()
+                    response_text = response_json.get('message', 'Respuesta exitosa sin mensaje')
+                except ValueError:
+                    response_text = response.text if response.text else "Respuesta exitosa sin cuerpo"
+            else:
+                response_text = response.text if response.text else "Error sin mensaje"
+
+            ridery_logger = self.env['ridery.log'].sudo()
+            ridery_logger.create({
+                'status': response.status_code,
+                'method': "POST",
+                'response_text': response_text
+            })
             if response.status_code in (200, 201):
                 return {
                     'type': 'ir.actions.client',
