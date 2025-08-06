@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem id="ridery_log_principal_menu"
+                  name="Ridery Logs"
+                  sequence="40"
+                  web_icon="ridery_log,static/description/ridery_log.png"
+                  action="action_ridery_log_views"
+                  groups="ridery_log.group_user_manager_ridery_log,ridery_log.group_user_reader_ridery_log"/>
+    </data>
+</odoo>

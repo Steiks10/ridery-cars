@@ -20,5 +20,22 @@ def middleware_ridery_decorator(func):
         if not any(company.app_vehicle_secret == auth_header for company in company_objects):
             raise Unauthorized(description="auth header didn`t match with company`s api secret")
         response = func(*args, **kwargs)
+        http_method = request.httprequest.method
+        # Serializa la respuesta para el log (puedes adaptarlo según tu helper)
+        response_text = str(response) if isinstance(response, (str, bytes)) else getattr(response, 'data',
+                                                                                            str(response))
+        if hasattr(response, 'status_code'):
+            status = response.status_code
+        elif isinstance(response, dict) and 'status' in response:
+            status = response['status']
+        else:
+            status = 200
+        # Registra el log
+        ridery_logger = request.env['ridery.log'].sudo()
+        ridery_logger.create({
+            'status': status,
+            'method': http_method,
+            'response_text': response_text
+        })
         return response
     return wrapper

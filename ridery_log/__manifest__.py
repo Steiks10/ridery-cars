@@ -11,7 +11,10 @@
     "category": 'Generic Modules/Ridery',
     "depends": ['base'],
     'data': [
-
+        "security/security.xml",
+        "security/ir.model.access.csv",
+        "views/action_ridery_log_views.xml",
+        "views/menu_item.xml"
     ],
     'installable': True,
 }
