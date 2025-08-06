@@ -9,6 +9,30 @@ import logging
 import json
 from .middleware import middleware_ridery_decorator
 
+"""
+Módulo: vehicle.py
+-------------------
+Este controlador gestiona la creación de vehículos en Odoo 16 a través de una ruta HTTP POST (`/ridery/vehicle`).
+Utiliza el decorador de middleware para validaciones y permite registrar vehículos desde una integración externa (por ejemplo, una app web).
+
+- Endpoint principal: `/ridery/vehicle` (POST)
+- Permite crear vehículos en el módulo Fleet usando datos enviados por terceros.
+- Realiza búsquedas y validaciones de datos relacionados (estado, modelo, conductor, ubicación).
+- Responde con el ID del vehículo creado o un error detallado.
+
+Autor: Ridery Team
+"""
+import odoo
+from odoo import http, _
+from odoo import fields
+from odoo.http import request, Response
+import hmac
+from datetime import datetime, timedelta, date
+import random
+import logging
+import json
+from .middleware import middleware_ridery_decorator
+
 _logger = logging.getLogger(__name__)
 class ElearningController(http.Controller):
     @http.route('/ridery/vehicle', auth='public', methods=['POST'], type='http', csrf=False)

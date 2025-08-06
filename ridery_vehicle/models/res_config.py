@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 
+# Configuración para gestionar la clave secreta de integración
 class ResConfigSettings(models.TransientModel):
    _inherit = ['res.config.settings']
 

@@ -1,7 +1,9 @@
 from odoo import models, fields, api, _
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    # Botón inteligente para ver los vehículos asociados al conductor
     def partner_vehicles_smart_button(self):
         self.ensure_one()
         return {
@@ -13,6 +15,7 @@ class ResPartner(models.Model):
             'domain': [('driver_id', '=', self.id)],
         }
 
+    # Vista personalizada para mostrar solo los conductores
     def _get_ridery_driver_view(self):
         user_ids = list(set(self.env['fleet.vehicle'].search([('driver_id', '!=', False)]).mapped('driver_id.id')))
         return {
@@ -24,6 +27,7 @@ class ResPartner(models.Model):
             'domain': [('id', 'in', user_ids)],
         }
 
+    # Envía los vehículos del conductor a una API externa
     def send_partner_vehicles_to_an_api(self):
         self.ensure_one()
         request_service = self.env['request.abstract.service']
